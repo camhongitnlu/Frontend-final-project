@@ -1,0 +1,63 @@
+<h3 class="text-center p-3">NINETEEN'S CHAT APP</h3>
+<div id="frame">
+  <div id="sidepanel">
+    <div id="profile" class="mb-3">
+      <button (click)="logout()"><i class="fa fa-sign-out" aria-hidden="true"></i><span>Logout</span></button>
+      <p><i class="fa fa-user-circle-o mr-2" aria-hidden="true"></i>{{this.username}}</p>
+    </div>
+    <form [formGroup]="reactiveForm">
+      <div id="search">
+        <label><i class="fa fa-search" aria-hidden="true"></i></label>
+        <input type="text" placeholder="Name of room or people" name="searchInput" formControlName="search" required/>
+      </div>
+      <div id="bottom-bar">
+        <button (click)="checkUser()" class="bottom-btn"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i><span>Add contact</span>
+        </button>
+        <button (click)="createRoom()" class="bottom-btn"><i class="fa fa-plus-circle" aria-hidden="true"></i>
+          <span>Create room</span>
+        </button>
+        <button (click)="joinRoom()" class="bottom-btn"><i class="fa fa-sign-in" aria-hidden="true"></i>
+          <span>Join room</span></button>
+      </div>
+    </form>
+    <div id="contacts">
+      <h4 class="text-center mt-3">Message</h4>
+      <ul>
+        <li class="contact" *ngFor="let item of listUser" (click)="getChat(item.type, item.name)">
+          <p class="name">
+            <i *ngIf="item.type == 1" class="fa fa-users" style="margin-right: 10px"></i>
+            <i *ngIf="item.type == 0" class="fa fa-user" style="margin-right: 10px"></i>
+            {{item.name}}</p>
+          <small class="" style="float: right">{{item.actionTime}}</small>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="content">
+    <div class="contact-profile">
+      <img src="../../img/avt.png" alt=""/>
+      <p>{{this.contactName}}</p>
+    </div>
+    <div class="messages">
+      <ul *ngFor="let item of reverseList">
+
+        <li class="sent" *ngIf="this.username == item.name">
+          <small class="showName"><strong>{{item.name}}</strong> - {{item.createAt}}</small>
+          <img src="../../img/avt-sent.png" alt=""/>
+          <p>{{item.mes}}</p>
+        </li>
+        <li class="replies" *ngIf="this.username != item.name">
+          <small class="showName"><strong>{{item.name}}</strong> - {{item.createAt}}</small>
+          <img src="../../img/avt.png" alt=""/>
+          <p>{{item.mes}}</p>
+        </li>
+      </ul>
+    </div>
+    <form [formGroup]="reactiveForm" class="message-input">
+      <div class="wrap">
+        <input type="text" placeholder="Write your message..." formControlName="input_message"/>
+        <button (click)="chat()" class="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+      </div>
+    </form>
+  </div>
+</div>
